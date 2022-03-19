@@ -1,18 +1,135 @@
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
-var char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+";
+var uppercaseChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var lowercaseChar = "abcdefghijklmnopqrstuvwxyz";
+var numberChar = "1234567890";
+var specialChar = "!@#$%^&*()_+";
 var passwordLength;
-var 
-// Write password to the #password input
-function writePassword() {
-  var password = generatePassword();
-  var passwordText = document.querySelector("#password");
+var uppercaseCheck;
+var numberCheck;
+var specialCheck;
 
-  passwordText.value = password;
+function determineLength() {
+  passwordLength = prompt("How many Characters are in your password (between 8-128 Characters):");
 
+  if (passwordLength < 8) {
+    alert("Password length must be between 8-128 Characters")
+    determineLength();
+  } else if (passwordLength > 128) {
+    alert("Password length must be between 8-128 Characters")
+    determineLength();
+  } else {
+    prompt("Would you like to add other Characters in the password(Yes/No)?")
+  }
+  return passwordLength;
 }
-function generatePassword(){
-  return ""
+
+function determineUppercase() {
+  uppercaseCheck = prompt("Would you like to include uppercase letters? (Yes/No)?");
+  uppercaseCheck = uppercaseCheck.toLowerCase();
+
+  if (uppercaseCheck === null || uppercaseCheck === "") {
+    alert("yes/no?");
+    determineUppercase();
+
+  } else if (uppercaseCheck === "yes") {
+    uppercaseCheck = true;
+    return uppercaseCheck;
+
+  } else if (uppercaseCheck === "no") {
+    uppercaseCheck = false;
+    return uppercaseCheck;
+
+  } else {
+    alert("yes/no?")
+    determineUppercase();
+  }
+  return uppercaseCheck;
 }
-// Add event listener to generate button
-generateBtn.addEventListener("click", writePassword);
+
+function determineNumbers() {
+  numberCheck = prompt("Would you like to include Numbers(Yes/No)?");
+  numberCheck = numberCheck.toLowerCase();
+
+  if (numberCheck === null || numberCheck === "") {
+    alert("yes/no?");
+    determineNumbers();
+
+  } else if (numberCheck === "yes") {
+    numberCheck = true;
+    return numberCheck;
+
+  } else if (numberCheck === "no") {
+    numberCheck = false;
+    return numberCheck;
+
+  } else {
+    alert("yes/no?")
+    determineNumbers();
+  }
+  return numberCheck;
+}
+
+  function determinespecial() {
+    specialCheck = prompt("Would you like to include special Characters(Yes/No)?");
+    specialCheck = specialCheck.toLowerCase();
+
+    if (specialCheck === null || specialCheck === "") {
+      alert("yes/no?")
+      determinespecial();
+
+    } else if (specialCheck === "yes") {
+      specialCheck = true;
+
+    } else if (specialCheck === "no") {
+      specialCheck = false;
+      return specialCheck;
+
+    } else {
+      alert("yes/no?")
+      determinespecial();
+    }
+    return specialCheck;
+  }
+
+  function generatePassword() {
+    determineLength();
+    console.log(passwordLength)
+    determineUppercase();
+    console.log(uppercaseCheck)
+    determineNumbers();
+    console.log(numberCheck);
+    determinespecial();
+    console.log(specialCheck);
+
+    var Characters = lowercaseChar;
+    var password = "";
+    if (uppercaseCheck) {
+      Characters += uppercaseChar;
+
+    } else if (numberCheck) {
+      Characters += numberChar;
+
+    } else if (specialCheck) {
+      Characters += specialChar;
+
+    } else {
+      Characters === lowercaseChar;
+    }
+
+    for (var i = 0; i < passwordLength; i++) {
+      password += Characters.charAt(Math.floor(Math.random() * Characters.length));
+    }
+    return password;
+  }
+  // Write password to the #password input
+  function writePassword() {
+    var password =  "";
+    password = generatePassword();
+    var passwordText = document.querySelector("#password");
+
+    passwordText.value = password;
+  }
+  // Add event listener to generate button
+  generateBtn.addEventListener("click", writePassword);
+
